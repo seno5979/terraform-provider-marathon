@@ -2,7 +2,6 @@ package marathon
 
 import (
 	"log"
-	"net/http"
 	"time"
 
 	"github.com/gambol99/go-marathon"
@@ -70,9 +69,9 @@ func providerConfigure(d *schema.ResourceData) (interface{}, error) {
 	marathonConfig := marathon.NewDefaultConfig()
 
 	marathonConfig.URL = d.Get("url").(string)
-	marathonConfig.HTTPClient = &http.Client{
-		Timeout: time.Duration(d.Get("request_timeout").(int)) * time.Second,
-	}
+	//marathonConfig.HTTPClient = &http.Client{
+	//	Timeout: time.Duration(d.Get("request_timeout").(int)) * time.Second,
+	//}
 	marathonConfig.HTTPBasicAuthUser = d.Get("basic_auth_user").(string)
 	marathonConfig.HTTPBasicPassword = d.Get("basic_auth_password").(string)
 	marathonConfig.DCOSToken = d.Get("dcos_token").(string)
@@ -81,9 +80,9 @@ func providerConfigure(d *schema.ResourceData) (interface{}, error) {
 	}
 	marathonConfig.EventsTransport = marathon.EventsTransportSSE
 
-	marathonConfig.HTTPClient = &http.Client{
-		Timeout: (time.Duration(d.Get("deployment_timeout").(int)) * time.Second),
-	}
+	//marathonConfig.HTTPClient = &http.Client{
+	//	Timeout: (time.Duration(d.Get("deployment_timeout").(int)) * time.Second),
+	//}
 
 	config := config{
 		config: marathonConfig,

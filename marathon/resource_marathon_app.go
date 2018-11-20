@@ -314,7 +314,7 @@ func resourceMarathonApp() *schema.Resource {
 									},
 									"path": &schema.Schema{
 										Type:     schema.TypeString,
-										Default:  "/",
+										Default:  "",
 										Optional: true,
 									},
 									"grace_period_seconds": &schema.Schema{
@@ -967,7 +967,7 @@ func mutateResourceToApplication(d *schema.ResourceData) *marathon.Application {
 		discovery = discovery.EmptyPorts()
 
 		ipAddressPerTask := new(marathon.IPAddressPerTask)
-		ipAddressPerTask.Discovery = discovery
+		ipAddressPerTask.Discovery = nil//discovery
 
 		ipAddressPerTask.NetworkName = t
 
@@ -1145,8 +1145,8 @@ func mutateResourceToApplication(d *schema.ResourceData) *marathon.Application {
 				commandMap := commands[0].(map[string]interface{})
 				healthCheck.Command = &marathon.Command{Value: commandMap["value"].(string)}
 				healthCheck.Protocol = "COMMAND"
-				path := ""
-				healthCheck.Path = &path
+				//path := ""
+				healthCheck.Path = nil //&path
 			} else {
 				if prop, ok := mapStruct["path"]; ok {
 					prop := prop.(string)
@@ -1266,6 +1266,8 @@ func mutateResourceToApplication(d *schema.ResourceData) *marathon.Application {
 		f, ok := v.(float64)
 		if ok {
 			upgradeStrategy.MaximumOverCapacity = &f
+
+			fmt.Println("=====>",*upgradeStrategy.MaximumOverCapacity)
 		}
 	}
 

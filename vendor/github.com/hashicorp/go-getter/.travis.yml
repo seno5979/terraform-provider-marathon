@@ -1,9 +1,16 @@
 sudo: false
 
+addons:
+  apt:
+    sources:
+      - sourceline: 'ppa:git-core/ppa'
+    packages:
+      - git
+
 language: go
 
 go:
-  - 1.5
+  - "1.11.x"
 
 branches:
   only:

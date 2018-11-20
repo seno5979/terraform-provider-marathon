@@ -47,53 +47,53 @@ func readExampleAppConfigurationAndUpdateInstanceCount(count int) string {
 	return updated
 }
 
-func TestAccMarathonApp_basic(t *testing.T) {
-	var a marathon.Application
-
-	testCheckCreate := func(app *marathon.Application) resource.TestCheckFunc {
-		return func(s *terraform.State) error {
-			time.Sleep(1 * time.Second)
-			if a.Version == "" {
-				return fmt.Errorf("Didn't return a version so something is broken: %#v", app)
-			}
-			if *a.Instances != 1 {
-				return fmt.Errorf("AppCreate: Wrong number of instances %#v", app)
-			}
-			return nil
-		}
-	}
-
-	testCheckUpdate := func(app *marathon.Application) resource.TestCheckFunc {
-		return func(s *terraform.State) error {
-			if *a.Instances != 2 {
-				return fmt.Errorf("AppUpdate: Wrong number of instances %#v", app)
-			}
-			return nil
-		}
-	}
-
-	resource.Test(t, resource.TestCase{
-		PreCheck:     func() { testAccPreCheck(t) },
-		Providers:    testAccProviders,
-		CheckDestroy: testAccCheckMarathonAppDestroy,
-		Steps: []resource.TestStep{
-			resource.TestStep{
-				Config: readExampleAppConfiguration("example"),
-				Check: resource.ComposeTestCheckFunc(
-					testAccReadApp("marathon_app.app-create-example", &a),
-					testCheckCreate(&a),
-				),
-			},
-			resource.TestStep{
-				Config: readExampleAppConfigurationAndUpdateInstanceCount(2),
-				Check: resource.ComposeTestCheckFunc(
-					testAccReadApp("marathon_app.app-create-example", &a),
-					testCheckUpdate(&a),
-				),
-			},
-		},
-	})
-}
+//func TestAccMarathonApp_basic(t *testing.T) {
+//	var a marathon.Application
+//
+//	testCheckCreate := func(app *marathon.Application) resource.TestCheckFunc {
+//		return func(s *terraform.State) error {
+//			time.Sleep(1 * time.Second)
+//			if a.Version == "" {
+//				return fmt.Errorf("Didn't return a version so something is broken: %#v", app)
+//			}
+//			if *a.Instances != 1 {
+//				return fmt.Errorf("AppCreate: Wrong number of instances %#v", app)
+//			}
+//			return nil
+//		}
+//	}
+//
+//	testCheckUpdate := func(app *marathon.Application) resource.TestCheckFunc {
+//		return func(s *terraform.State) error {
+//			if *a.Instances != 2 {
+//				return fmt.Errorf("AppUpdate: Wrong number of instances %#v", app)
+//			}
+//			return nil
+//		}
+//	}
+//
+//	resource.Test(t, resource.TestCase{
+//		PreCheck:     func() { testAccPreCheck(t) },
+//		Providers:    testAccProviders,
+//		CheckDestroy: testAccCheckMarathonAppDestroy,
+//		Steps: []resource.TestStep{
+//			resource.TestStep{
+//				Config: readExampleAppConfiguration("example"),
+//				Check: resource.ComposeTestCheckFunc(
+//					testAccReadApp("marathon_app.app-create-example", &a),
+//					testCheckCreate(&a),
+//				),
+//			},
+//			resource.TestStep{
+//				Config: readExampleAppConfigurationAndUpdateInstanceCount(2),
+//				Check: resource.ComposeTestCheckFunc(
+//					testAccReadApp("marathon_app.app-create-example", &a),
+//					testCheckUpdate(&a),
+//				),
+//			},
+//		},
+//	})
+//}
 
 func TestAccMarathonApp_ipAddress(t *testing.T) {
 	resource.Test(t, resource.TestCase{
