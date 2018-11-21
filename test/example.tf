@@ -7,7 +7,6 @@ resource "marathon_app" "app-create-example" {
   instances = 1
   mem = 50
   max_launch_delay_seconds = 3000
-  ports = [0, 0]
 
   container {
     docker {
