@@ -627,6 +627,9 @@ func setSchemaFieldsForApp(app *marathon.Application, d *schema.ResourceData) {
 
 	d.Set("cmd", app.Cmd)
 	d.SetPartial("cmd")
+	
+	d.Set("task_kill_grace_period_seconds", app.TaskKillGracePeriodSeconds)
+	d.SetPartial("task_kill_grace_period_seconds")
 
 	if app.Constraints != nil && len(*app.Constraints) > 0 {
 		cMaps := make([]map[string]string, len(*app.Constraints))
@@ -940,6 +943,11 @@ func mutateResourceToApplication(d *schema.ResourceData) *marathon.Application {
 	if v, ok := d.GetOk("cmd"); ok {
 		value := v.(string)
 		application.Cmd = &value
+	}
+	
+	if v, ok := d.GetTaskKillGracePeriodSeconds("task_kill_grace_period_seconds"); ok {
+		value := v.(int)
+		application.GetTaskKillGracePeriodSeconds = &value
 	}
 
 	if v, ok := d.GetOk("constraints.0.constraint.#"); ok {
