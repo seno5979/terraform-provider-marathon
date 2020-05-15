@@ -945,7 +945,7 @@ func mutateResourceToApplication(d *schema.ResourceData) *marathon.Application {
 		application.Cmd = &value
 	}
 	
-	if v, ok := d.GetTaskKillGracePeriodSeconds("task_kill_grace_period_seconds"); ok {
+	if v, ok := d.GetOk("task_kill_grace_period_seconds"); ok {
 		value := v.(int)
 		application.TaskKillGracePeriodSeconds = &value
 	}
