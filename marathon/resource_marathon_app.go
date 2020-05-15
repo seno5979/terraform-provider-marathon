@@ -58,6 +58,11 @@ func resourceMarathonApp() *schema.Resource {
 				Optional: true,
 				ForceNew: false,
 			},
+			"task_kill_grace_period_seconds": &schema.Schema{
+				Type:     schema.TypeInt,
+				Optional: true,
+				ForceNew: false,
+			},
 			"constraints": &schema.Schema{
 				Type:     schema.TypeList,
 				Optional: true,
