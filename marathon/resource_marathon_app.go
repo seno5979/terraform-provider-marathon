@@ -59,9 +59,10 @@ func resourceMarathonApp() *schema.Resource {
 				ForceNew: false,
 			},
 			"task_kill_grace_period_seconds": &schema.Schema{
-				Type:     schema.TypeInt,
+				Type:     schema.TypeFloat,
 				Optional: true,
 				ForceNew: false,
+				Default: 95,
 			},
 			"constraints": &schema.Schema{
 				Type:     schema.TypeList,
@@ -946,7 +947,7 @@ func mutateResourceToApplication(d *schema.ResourceData) *marathon.Application {
 	}
 	
 	if v, ok := d.GetOk("task_kill_grace_period_seconds"); ok {
-		value := v.(int)
+		value := v.(float64)
 		application.TaskKillGracePeriodSeconds = &value
 	}
 
